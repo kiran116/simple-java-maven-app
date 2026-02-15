@@ -1,15 +1,59 @@
 # simple-java-maven-app
 
-This repository is for the
-[Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
-tutorial in the [Jenkins User Documentation](https://jenkins.io/doc/).
+Simple Spring Boot app with one endpoint:
 
-The repository contains a simple Java application which outputs the string
-"Hello world!" and is accompanied by a couple of unit tests to check that the
-main application works as expected. The results of these tests are saved to a
-JUnit XML report.
+- `GET /` -> `Hello from Spring Boot on Kubernetes`
 
-The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
-you'll be creating yourself during the tutorial and the `jenkins/scripts` subdirectory
-contains a shell script with commands that are executed when Jenkins processes
-the "Deliver" stage of your Pipeline.
+## Run locally (without Kubernetes)
+
+```bash
+mvn spring-boot:run
+```
+
+Then open [http://localhost:8080/](http://localhost:8080/).
+
+## Build container image
+
+```bash
+docker build -t my-app:local .
+```
+
+## Run on local Kubernetes
+
+Apply manifests:
+
+```bash
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+```
+
+### If using `kind`
+
+Load the local image into the cluster first:
+
+```bash
+kind load docker-image my-app:local
+```
+
+Access the app:
+
+```bash
+kubectl port-forward service/my-app 8080:8080
+```
+
+Then open [http://localhost:8080/](http://localhost:8080/).
+
+### If using `minikube`
+
+Build image into minikube Docker daemon:
+
+```bash
+eval "$(minikube docker-env)"
+docker build -t my-app:local .
+```
+
+Access the app:
+
+```bash
+minikube service my-app --url
+```
