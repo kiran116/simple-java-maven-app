@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: <+artifact.image>
+          image: kiran4c0/harness:test-push-dockerhub
           ports:
             - containerPort: 8080
