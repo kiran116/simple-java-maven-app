@@ -1,4 +1,4 @@
-FROM maven:3.8.1-openjdk-11 AS builder
+FROM docker.io/library/maven:3.8.1-openjdk-11 AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY src ./src
 
 RUN mvn clean package -DskipTests
 
-FROM openjdk:11
+FROM docker.io/library/eclipse-temurin:11-jre
 
 WORKDIR /app
 
