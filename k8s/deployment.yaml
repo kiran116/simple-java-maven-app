@@ -15,5 +15,6 @@ spec:
       containers:
         - name: my-app
           image: kiran4c0/harness:test-push-dockerhub
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
