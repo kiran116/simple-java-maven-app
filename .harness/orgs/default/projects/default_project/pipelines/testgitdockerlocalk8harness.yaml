@@ -1,0 +1,44 @@
+pipeline:
+  name: test-git-docker-localk8-harness
+  identifier: testgitdockerlocalk8harness
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: GitHubconnector
+        repoName: simple-java-maven-app
+        build: <+input>
+  stages:
+    - stage:
+        name: test-build-stage
+        identifier: testbuildstage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: testharnessk8connector
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: dockerconnector
+                    repo: kiran4c0/harness
+                    tags:
+                      - test-push-dockerhub
