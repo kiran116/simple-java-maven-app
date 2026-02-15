@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3.8.1-openjdk-11 AS builder
+FROM docker.io/library/maven:3.9.9-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY src ./src
 
 RUN mvn clean package -DskipTests
 
-FROM docker.io/library/eclipse-temurin:11-jre
+FROM docker.io/library/eclipse-temurin:17-jre
 
 WORKDIR /app
 
