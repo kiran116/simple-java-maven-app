@@ -36,7 +36,7 @@ pipeline:
                     connectorRef: dockerconnector
                     repo: kiran4c0/harness
                     tags:
-                      - test-push-dockerhub
+                      - test-push-dockerhub1
     - stage:
         name: test-deploy
         identifier: testdeploy
